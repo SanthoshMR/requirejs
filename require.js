@@ -1584,7 +1584,7 @@ var requirejs, require, define;
              * internal API, not a public one. Use toUrl for the public API.
              */
             nameToUrl: function (moduleName, ext, skipExt) {
-                var paths, syms, i, parentModule, url,
+                var paths, syms, i, parentModule, url, jsExt,
                     parentPath, bundleId,
                     pkgMain = getOwn(config.pkgs, moduleName);
 
@@ -1632,7 +1632,9 @@ var requirejs, require, define;
 
                     //Join the path parts together, then figure out if baseUrl is needed.
                     url = syms.join('/');
-                    url += (ext || (/^data\:|\?/.test(url) || skipExt ? '' : '.js'));
+                    // url += (ext || (/^data\:|\?/.test(url) || skipExt ? '' : '.js'));
+                    jsExt = ((!url.match(/^[\w\+\.\-]+:/) && config.cacheSuffix) ? config.cacheSuffix : '') + '.js';
+                    url += (ext || (/^data\:|\?/.test(url) || skipExt ? '' : jsExt));
                     url = (url.charAt(0) === '/' || url.match(/^[\w\+\.\-]+:/) ? '' : config.baseUrl) + url;
                 }
 
